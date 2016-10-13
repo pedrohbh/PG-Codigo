@@ -6,18 +6,40 @@
  */
 
 #include <iostream>
+#include <cstdlib>
 #include <ctime>
 #include <string>
 #include "Grafo.h"
 using namespace std;
 
-int main()
+int main( int argc, char *argv[] )
 {
 	Grafo g;
+	int verticeOrigem;
+	int verticeDestino;
 	clock_t begin;
 	clock_t end;
 	double tempoDecorrido;
-	string nomeEntrada = "USA-road-d.NY.gr"; //"USA-road-d.NY.gr"; // = "USA-road-d.FLA.gr";
+	string nomeEntrada;
+	if ( argc < 2 )
+	{
+		nomeEntrada = "../Testes/teste.txt";
+		verticeOrigem = 0;
+		verticeDestino = 1;
+	}
+	else
+	{
+		nomeEntrada = argv[ 2 ];
+		verticeOrigem = 0;
+		verticeDestino = 1;
+		if ( argc > 3 )
+		{
+			verticeOrigem = atoi( argv[ 3 ] );
+			verticeDestino = atoi( argv[ 4 ] );
+		}
+	}
+			
+	
 	g.leArquivoDeEntrada( nomeEntrada.c_str() );
 	//g.imprimeGrafo();
 	begin = clock();
