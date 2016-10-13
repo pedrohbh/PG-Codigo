@@ -28,7 +28,8 @@ public:
 
 	void buscaEmProfundidade();
 	void buscaEmLargura();
-	void dijkstra(unsigned int origem, unsigned int destino );
+	void dijkstraCanonico( unsigned int origem, unsigned int destino );
+	void dijkstraHeapBinario(unsigned int origem, unsigned int destino );
 
 	// Getters and Setters
 	unsigned int getNumeroArestas() const;

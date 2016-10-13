@@ -41,15 +41,15 @@ int main( int argc, char *argv[] )
 			
 	
 	g.leArquivoDeEntrada( nomeEntrada.c_str() );
-	//g.imprimeGrafo();
-	begin = clock();
+	g.imprimeGrafo();
+	/*begin = clock();
 	//g.buscaEmLargura();
 	g.dijkstra( 0, 3 );
 	//g.buscaEmProfundidade();
 	end = clock();
 	tempoDecorrido = (double)(end - begin) / CLOCKS_PER_SEC;
 	cout << tempoDecorrido << endl;
-	//g.buscaEmLargura();
+	//g.buscaEmLargura();*/
 
 	//cout << "Sobrevivi Final" << endl;
 }

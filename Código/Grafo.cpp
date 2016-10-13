@@ -172,8 +172,69 @@ void imprimeVetorPosicoes( unsigned int *vetor, unsigned int tamanho )
 	for ( unsigned int i = 0; i < tamanho; i++ )
 		cout << vetor[ i ] << endl;
 }
+// No caso do Dijkstra Canônico, a posição dos vetores predecessor, distancias, aSerChecado correspondem ao ID dos vértices
+void Grafo::dijkstraCanonico( unsigned int origem, unsigned int destino )
+{
+	if ( origem >= numeroVertices || destino >= numeroVertices )
+	{
+		cerr << "Erro: O vértice origem ou destino não existe no grafo (nVertice > numeroVertices)" << endl;
+		return;
+	}
 
-void Grafo::dijkstra( unsigned int origem, unsigned int destino )
+	// Inicializações de Variáveis
+	unsigned int tamanhoVetor = numeroVertices;
+	unsigned int predecessor[ numeroVertices ];
+	unsigned int distancias[ numeroVertices ];
+	unsigned int verticeAtual = origem;
+	bool aSerChecado[ numeroVertices ];
+	for ( int i = 0; i < numeroVertices; i++ )
+	{
+		aSerChecado[ i ] = true;
+		distancias[ i ] = UINT_MAX;
+		predecessor[ i ] = 0;
+	}
+
+	// Inicialização de origem
+	distancias[ origem ] = 0;
+	aSerChecado[ origem ] = false;
+	predecessor[ origem ] = origem;
+	
+	while ( tamanhoVetor > 0 )
+	{
+		for ( list<Aresta>::const_iterator it = verticesGrafos[ verticeAtual ].verticesAdjacentes.begin(); it != verticesGrafos[ atual ].verticesAdjacentes.end(); ++it )
+		{
+			unsigned int posicaoVerticeAdjacente = it->idVertice2;
+			
+			if ( !aSerChecado[ posicaoVerticeAdjacente ] )
+				continue;
+			
+			if ( distancias[ posicaoVerticeAdjacente ] > distancias[ verticeAtual ] + it->pesoAtual )
+			{
+				distancias[ posicaoVerticeAdjacente ] = distancias[ verticeAtual ] + it->pesoAtual;
+				predecessor[ posicaoVerticeAdjacente ] = verticeAtual;
+			}
+		}
+		
+		unsigned int menorElemento = UINT_MAX;
+		// Busca menor elemento
+		for ( int i = 0; numeroVertices; i++ )
+		{
+			if ( !aSerChecado[ posicaoVerticeAdjacenete ] )
+				continue;
+			if ( distancias[ i ] < menorElemento )
+			{
+				menorElemento = distancias[ i ];
+				atual = i;
+			}
+		}
+
+		aSerChecado[ atual ] = false;
+		tamanhoVetor--;
+	}
+	
+}
+
+void Grafo::dijkstraHeapBinario( unsigned int origem, unsigned int destino )
 {
 	if ( origem >= numeroVertices || destino >= numeroVertices )
 	{
