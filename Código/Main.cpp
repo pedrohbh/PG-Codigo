@@ -42,6 +42,7 @@ int main( int argc, char *argv[] )
 	
 	g.leArquivoDeEntrada( nomeEntrada.c_str() );
 	g.imprimeGrafo();
+	g.dijkstraCanonico( 0, 3 );
 	/*begin = clock();
 	//g.buscaEmLargura();
 	g.dijkstra( 0, 3 );

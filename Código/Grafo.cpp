@@ -187,6 +187,7 @@ void Grafo::dijkstraCanonico( unsigned int origem, unsigned int destino )
 	unsigned int distancias[ numeroVertices ];
 	unsigned int verticeAtual = origem;
 	bool aSerChecado[ numeroVertices ];
+	
 	for ( int i = 0; i < numeroVertices; i++ )
 	{
 		aSerChecado[ i ] = true;
@@ -201,34 +202,34 @@ void Grafo::dijkstraCanonico( unsigned int origem, unsigned int destino )
 	
 	while ( tamanhoVetor > 0 )
 	{
-		for ( list<Aresta>::const_iterator it = verticesGrafos[ verticeAtual ].verticesAdjacentes.begin(); it != verticesGrafos[ atual ].verticesAdjacentes.end(); ++it )
+		for ( list<Aresta>::const_iterator it = verticesGrafos[ verticeAtual ].verticesAdjacentes.begin(); it != verticesGrafos[ verticeAtual ].verticesAdjacentes.end(); ++it )
 		{
 			unsigned int posicaoVerticeAdjacente = it->idVertice2;
 			
 			if ( !aSerChecado[ posicaoVerticeAdjacente ] )
 				continue;
 			
-			if ( distancias[ posicaoVerticeAdjacente ] > distancias[ verticeAtual ] + it->pesoAtual )
+			if ( distancias[ posicaoVerticeAdjacente ] > distancias[ verticeAtual ] + it->pesoAresta )
 			{
-				distancias[ posicaoVerticeAdjacente ] = distancias[ verticeAtual ] + it->pesoAtual;
+				distancias[ posicaoVerticeAdjacente ] = distancias[ verticeAtual ] + it->pesoAresta;
 				predecessor[ posicaoVerticeAdjacente ] = verticeAtual;
 			}
 		}
 		
 		unsigned int menorElemento = UINT_MAX;
 		// Busca menor elemento
-		for ( int i = 0; numeroVertices; i++ )
+		for ( int i = 0; i < numeroVertices; i++ )
 		{
-			if ( !aSerChecado[ posicaoVerticeAdjacenete ] )
+			if ( !aSerChecado[ i ] )
 				continue;
 			if ( distancias[ i ] < menorElemento )
 			{
 				menorElemento = distancias[ i ];
-				atual = i;
+				verticeAtual = i;
 			}
 		}
 
-		aSerChecado[ atual ] = false;
+		aSerChecado[ verticeAtual ] = false;
 		tamanhoVetor--;
 	}
 	
