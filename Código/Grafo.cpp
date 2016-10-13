@@ -172,6 +172,18 @@ void imprimeVetorPosicoes( unsigned int *vetor, unsigned int tamanho )
 	for ( unsigned int i = 0; i < tamanho; i++ )
 		cout << vetor[ i ] << endl;
 }
+
+void impimeRotaMaisCurta( unsigned int const *origemPtr, unsigned int const *detinoPtr, unsigned int const *anterior, unsigned int const *predecessor )
+{
+	if ( predecessor[ (*anterior) ] != *origemPtr )
+	{
+		impimeRotaMaisCurta( origemPtr, detinoPtr, &predecessor[ (*anterior) ], predecessor );
+		cout << predecessor[ (*anterior) ] << " - ";
+	}
+	else
+		cout << cout << predecessor[ (*anterior) ] << " - ";
+}
+
 // No caso do Dijkstra Canônico, a posição dos vetores predecessor, distancias, aSerChecado correspondem ao ID dos vértices
 void Grafo::dijkstraCanonico( unsigned int origem, unsigned int destino )
 {
@@ -231,6 +243,13 @@ void Grafo::dijkstraCanonico( unsigned int origem, unsigned int destino )
 
 		aSerChecado[ verticeAtual ] = false;
 		tamanhoVetor--;
+	}
+
+	// Imprime rota - Comente o trecho a seguir para os testes de tempos
+	//impimeRotaMaisCurta( &origem, &destino, &predecessor[ destino ] , predecessor );
+	for ( int i = 0; i < numeroVertices; i++ )
+	{
+		cout << i << ": " << predecessor[ i ] << endl;
 	}
 	
 }

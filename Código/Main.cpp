@@ -29,7 +29,7 @@ int main( int argc, char *argv[] )
 	}
 	else
 	{
-		nomeEntrada = argv[ 2 ];
+		nomeEntrada = argv[ 1 ];
 		verticeOrigem = 0;
 		verticeDestino = 1;
 		if ( argc > 3 )
