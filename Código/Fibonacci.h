@@ -26,10 +26,13 @@ public:
 class HeapFibonacci
 {
 public:
+	HeapFibonacci();	
+
 	bool insereVertice( FibonacciNode *node );
 
 private:
 	FibonacciNode *minRoot;
+	FibonacciNode *estruturaHeap;
 
 };
 

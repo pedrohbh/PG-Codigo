@@ -1,5 +1,7 @@
 #include "Fibonacci.h"
 
+// Definições da classe FibonacciNode
+
 bool FibonacciNode::adicionaFilho( Node *node )
 {
 	if ( filhoPtr != NULL )
@@ -55,7 +57,14 @@ bool FibonacciNode::remove()
 
 	return true;
 }
+
+// Definições da classe Heap Fibonacci
 	
+HeapFibonacci::HeapFibonacci()
+{
+	minRoot = NULL;
+	estruturaHeap = NULL;
+}
 
 bool HeapFibonacci::insereVertice( FibonacciNode *node )
 {

@@ -14,6 +14,7 @@
 #include <climits>
 #include <list>
 #include "Grafo.h"
+#include "Fibonacci.h"
 using namespace std;
 
 struct Heap
@@ -183,6 +184,12 @@ void impimeRotaMaisCurta( unsigned int const *origemPtr, unsigned int const *det
 	else
 		cout << cout << predecessor[ (*anterior) ] << " - ";
 }
+
+void Grafo::dijkstraHeapFibonacci( unsigned int origem, unsigned int destino )
+{
+	HeapFibonacci *heap = new FibonacciHeap();
+
+	
 
 // No caso do Dijkstra Canônico, a posição dos vetores predecessor, distancias, aSerChecado correspondem ao ID dos vértices
 void Grafo::dijkstraCanonico( unsigned int origem, unsigned int destino )

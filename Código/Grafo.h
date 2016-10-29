@@ -30,6 +30,7 @@ public:
 	void buscaEmLargura();
 	void dijkstraCanonico( unsigned int origem, unsigned int destino );
 	void dijkstraHeapBinario(unsigned int origem, unsigned int destino );
+	void dijkstraHeapFibonacci( unsigned int origem, unsigned int destino );
 
 	// Getters and Setters
 	unsigned int getNumeroArestas() const;
