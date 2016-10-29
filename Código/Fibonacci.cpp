@@ -87,3 +87,8 @@ void HeapFibonacci::decreaseKey( int delta, Node *vertice )
 	if ( vertice->distancia < minRoot->distancia )
 		minRoot = vertice;
 }
+
+Node *HeapFibonacci::findMin()
+{
+	return minRoot;
+}
