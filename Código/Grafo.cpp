@@ -185,12 +185,12 @@ void impimeRotaMaisCurta( unsigned int const *origemPtr, unsigned int const *det
 		cout << cout << predecessor[ (*anterior) ] << " - ";
 }
 
-void Grafo::dijkstraHeapFibonacci( unsigned int origem, unsigned int destino )
+/*void Grafo::dijkstraHeapFibonacci( unsigned int origem, unsigned int destino )
 {
 	HeapFibonacci *heap = new FibonacciHeap();
 
-	
-
+	heap->insereVertice( 
+}*/
 // No caso do Dijkstra Canônico, a posição dos vetores predecessor, distancias, aSerChecado correspondem ao ID dos vértices
 void Grafo::dijkstraCanonico( unsigned int origem, unsigned int destino )
 {
