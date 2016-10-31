@@ -2,6 +2,16 @@
 
 // Definições da classe FibonacciNode
 
+FibonacciNode::FibonacciNode()
+{
+	esquerdaPtr = this;
+	direitaPtr = this;
+	paiPtr = NULL;
+	filhoPtr = NULL;
+	rank = 0;
+}
+	
+
 bool FibonacciNode::adicionaFilho( Node *node )
 {
 	if ( filhoPtr != NULL )
@@ -64,6 +74,7 @@ HeapFibonacci::HeapFibonacci()
 {
 	minRoot = NULL;
 	estruturaHeap = NULL;
+	degree = 0;
 }
 
 bool HeapFibonacci::insereVertice( FibonacciNode *node )

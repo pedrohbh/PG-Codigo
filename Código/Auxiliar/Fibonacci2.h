@@ -33,6 +33,7 @@ public:
 private:
 	FibonacciNode *minRoot;
 	FibonacciNode *estruturaHeap;
+	int degree;
 
 };
 
