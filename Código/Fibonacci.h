@@ -14,6 +14,9 @@ public:
 	FibonacciNode( int, int );
 
 
+	void adicionaFilho( FibonacciNode *novoNodo );
+
+
 
 
 	// Getters and Setters
@@ -56,6 +59,8 @@ public:
 
 	void insertVertex( FibonacciNode *nodo );
 	FibonacciNode *extractMin();
+	void consolidate();
+	void heapLink( FibonacciNode *y, FibonacciNode *x );
 
 private:
 	int numeroNodos;

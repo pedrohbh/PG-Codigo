@@ -5,15 +5,17 @@
  *      Author: administrador
  */
 #include <cstdlib>
+#include <iostream>
 #include "Fibonacci.h"
 
+using namespace std;
 
 FibonacciNode::FibonacciNode( int vertice, int dist )
 {
 	rank = 0;
 	mark = false;
-	esquerdaPtr = this;
-	direitaPtr = this;
+	esquerdaPtr = NULL;
+	direitaPtr = NULL;
 	paiPtr = NULL;
 	filhoPtr = NULL;
 	idVertice = vertice;
@@ -21,6 +23,19 @@ FibonacciNode::FibonacciNode( int vertice, int dist )
 }
 
 
+void FibonacciNode::adicionaFilho( FibonacciNode *nodo )
+{
+	if ( filhoPtr == NULL )
+		filhoPtr = nodo;
+	else
+	{
+		nodo->direitaPtr = filhoPtr;
+		filhoPtr = nodo;
+	}
+
+	rank++;
+
+}
 
 
 const FibonacciNode*& FibonacciNode::getDireitaPtr() const {
@@ -87,6 +102,8 @@ void HeapFibonacci::insertVertex( FibonacciNode *nodo )
 	{
 		ultimoListaCircular = nodo;
 		primeiroListaCircular = nodo;
+		nodo->direitaPtr = nodo;
+		nodo->esquerdaPtr = nodo;
 	}
 	else
 	{
@@ -123,18 +140,101 @@ FibonacciNode *HeapFibonacci::extractMin()
 
 		nodo->direitaPtr->esquerdaPtr = nodo->esquerdaPtr;
 		nodo->esquerdaPtr->direitaPtr = nodo->direitaPtr;
+		if ( primeiroListaCircular == nodo )
+			primeiroListaCircular = nodo->direitaPtr;
+		if ( ultimoListaCircular == nodo )
+			ultimoListaCircular = nodo->esquerdaPtr;
+
 
 		if ( nodo->direitaPtr == nodo )
 			minRoot = NULL;
 		else
 		{
 			minRoot = nodo->direitaPtr;
+			consolidate();
 		}
+		numeroNodos--;
 	}
 
 
 
 	return nodo;
+}
+
+void swapFibonacciNodes( FibonacciNode **n1, FibonacciNode **n2  )
+{
+	FibonacciNode *temp = (*n1);
+	*n1 = *n2;
+	*n2 = temp;
+}
+
+void HeapFibonacci::heapLink( FibonacciNode *y, FibonacciNode *x )
+{
+	y->direitaPtr->esquerdaPtr = y->esquerdaPtr;
+	y->esquerdaPtr->direitaPtr = y->direitaPtr;
+	if ( primeiroListaCircular == y )
+		primeiroListaCircular = y->direitaPtr;
+	if ( ultimoListaCircular == y )
+		ultimoListaCircular = y->esquerdaPtr;
+
+
+	x->adicionaFilho( y );
+	y->mark = false;
+
+}
+
+void HeapFibonacci::consolidate()
+{
+	// Mudar aqui depois
+	FibonacciNode **vetorAuxiliar = (FibonacciNode **)malloc(sizeof(FibonacciNode *) * 100 );
+	if ( vetorAuxiliar == NULL )
+	{
+		cerr << "Não foi possível alocar o vetor auxiliar na Heap de Fibonnaci. Encerrando o programa" << endl;
+		exit( 1 );
+	}
+
+	for ( int i = 0; i < 100; i++ )
+		vetorAuxiliar[ i ] = NULL;
+
+	FibonacciNode *it = primeiroListaCircular;
+	do
+	{
+		FibonacciNode *x = it;
+		int d = x->getRank();
+		while ( vetorAuxiliar[ d ] != NULL )
+		{
+			FibonacciNode *y = vetorAuxiliar[ d ];
+			if ( x->getDistancia() > y->getDistancia() )
+				swapFibonacciNodes( &x, &y );
+			heapLink( y, x );
+			vetorAuxiliar[ d ] = NULL;
+			d = d + 1;
+		}
+		vetorAuxiliar[ d ] = x;
+
+		it = it->direitaPtr;
+
+	} while ( it != primeiroListaCircular );
+
+	minRoot = NULL;
+	for ( int i = 0; i < 100; i++ )
+	{
+		if ( vetorAuxiliar[ i ] != NULL )
+		{
+			vetorAuxiliar[ i ]->esquerdaPtr = ultimoListaCircular;
+			vetorAuxiliar[ i ]->direitaPtr = primeiroListaCircular;
+
+			ultimoListaCircular->direitaPtr = vetorAuxiliar[ i ];
+			primeiroListaCircular->esquerdaPtr = vetorAuxiliar[ i ];
+
+			ultimoListaCircular = vetorAuxiliar[ i ];
+			if ( minRoot == NULL || vetorAuxiliar[ i ]->getDistancia() < minRoot->getDistancia() )
+				minRoot = vetorAuxiliar[ i ];
+
+
+		}
+	}
+
 }
 
 int FibonacciNode::getDistancia() const {
