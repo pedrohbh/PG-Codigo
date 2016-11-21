@@ -38,7 +38,7 @@ void FibonacciNode::adicionaFilho( FibonacciNode *nodo )
 }
 
 
-const FibonacciNode*& FibonacciNode::getDireitaPtr() const {
+/*const FibonacciNode*& FibonacciNode::getDireitaPtr() const {
 	return direitaPtr;
 }
 
@@ -60,7 +60,7 @@ const FibonacciNode*& FibonacciNode::getFilhoPtr() const {
 
 void FibonacciNode::setFilhoPtr(const FibonacciNode*& filhoPtr) {
 	this->filhoPtr = filhoPtr;
-}
+}*/
 
 bool FibonacciNode::isMark() const {
 	return mark;
@@ -70,13 +70,13 @@ void FibonacciNode::setMark(bool mark) {
 	this->mark = mark;
 }
 
-const FibonacciNode*& FibonacciNode::getPaiPtr() const {
+/*const FibonacciNode*& FibonacciNode::getPaiPtr() const {
 	return paiPtr;
 }
 
 void FibonacciNode::setPaiPtr(const FibonacciNode*& paiPtr) {
 	this->paiPtr = paiPtr;
-}
+}*/
 
 int FibonacciNode::getRank() const {
 	return rank;

@@ -19,17 +19,17 @@ public:
 
 
 
-	// Getters and Setters
+	/*// Getters and Setters
 	const FibonacciNode*& getDireitaPtr() const;
 	void setDireitaPtr(const FibonacciNode*& direitaPtr);
 	const FibonacciNode*& getEsquerdaPtr() const;
 	void setEsquerdaPtr(const FibonacciNode*& esquerdaPtr);
 	const FibonacciNode*& getFilhoPtr() const;
-	void setFilhoPtr(const FibonacciNode*& filhoPtr);
+	void setFilhoPtr(const FibonacciNode*& filhoPtr);*/
 	bool isMark() const;
 	void setMark(bool mark);
-	const FibonacciNode*& getPaiPtr() const;
-	void setPaiPtr(const FibonacciNode*& paiPtr);
+	/*const FibonacciNode*& getPaiPtr() const;
+	void setPaiPtr(const FibonacciNode*& paiPtr);*/
 	int getRank() const;
 	void setRank(int rank);
 	int getDistancia() const;
@@ -37,7 +37,7 @@ public:
 	int getIdVertice() const;
 	void setIdVertice(int idVertice);
 
-private:
+//private:
 	FibonacciNode *paiPtr;
 	FibonacciNode *filhoPtr;
 	FibonacciNode *esquerdaPtr;
@@ -62,7 +62,7 @@ public:
 	void consolidate();
 	void heapLink( FibonacciNode *y, FibonacciNode *x );
 
-private:
+//private:
 	int numeroNodos;
 	FibonacciNode *minRoot;
 	FibonacciNode *ultimoListaCircular;
