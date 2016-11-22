@@ -25,6 +25,10 @@ FibonacciNode::FibonacciNode( int vertice, int dist )
 
 void FibonacciNode::adicionaFilho( FibonacciNode *nodo )
 {
+	nodo->direitaPtr = NULL;
+	nodo->esquerdaPtr = NULL;
+	nodo->paiPtr = this;
+
 	if ( filhoPtr == NULL )
 		filhoPtr = nodo;
 	else
@@ -126,25 +130,15 @@ FibonacciNode *HeapFibonacci::extractMin()
 	FibonacciNode *nodo = minRoot;
 	if ( nodo != NULL )
 	{
-		for ( FibonacciNode *it = nodo->filhoPtr; it != NULL; it = it->direitaPtr )
+		while ( nodo->filhoPtr != NULL )
 		{
-			it->direitaPtr = primeiroListaCircular;
-			it->esquerdaPtr = ultimoListaCircular;
-
-			ultimoListaCircular->direitaPtr = it;
-			primeiroListaCircular->esquerdaPtr = it;
-			ultimoListaCircular = it;
-
+			FibonacciNode *it = nodo->filhoPtr;
+			nodo->filhoPtr = nodo->filhoPtr->direitaPtr;
 			it->paiPtr = NULL;
+			insereVerticineListaPricipal( it );
 		}
 
-		nodo->direitaPtr->esquerdaPtr = nodo->esquerdaPtr;
-		nodo->esquerdaPtr->direitaPtr = nodo->direitaPtr;
-		if ( primeiroListaCircular == nodo )
-			primeiroListaCircular = nodo->direitaPtr;
-		if ( ultimoListaCircular == nodo )
-			ultimoListaCircular = nodo->esquerdaPtr;
-
+		remoreVerticeNaListaPrincipal( nodo );
 
 		if ( nodo->direitaPtr == nodo )
 			minRoot = NULL;
@@ -170,14 +164,7 @@ void swapFibonacciNodes( FibonacciNode **n1, FibonacciNode **n2  )
 
 void HeapFibonacci::heapLink( FibonacciNode *y, FibonacciNode *x )
 {
-	y->direitaPtr->esquerdaPtr = y->esquerdaPtr;
-	y->esquerdaPtr->direitaPtr = y->direitaPtr;
-	if ( primeiroListaCircular == y )
-		primeiroListaCircular = y->direitaPtr;
-	if ( ultimoListaCircular == y )
-		ultimoListaCircular = y->esquerdaPtr;
-
-
+	remoreVerticeNaListaPrincipal( y );
 	x->adicionaFilho( y );
 	y->mark = false;
 
@@ -212,6 +199,9 @@ void HeapFibonacci::consolidate()
 		}
 		vetorAuxiliar[ d ] = x;
 
+		if ( it->paiPtr != NULL )
+			it = it->paiPtr;
+
 		it = it->direitaPtr;
 
 	} while ( it != primeiroListaCircular );
@@ -221,19 +211,14 @@ void HeapFibonacci::consolidate()
 	{
 		if ( vetorAuxiliar[ i ] != NULL )
 		{
-			vetorAuxiliar[ i ]->esquerdaPtr = ultimoListaCircular;
-			vetorAuxiliar[ i ]->direitaPtr = primeiroListaCircular;
+			//insereVerticineListaPricipal( vetorAuxiliar[ i ] );
 
-			ultimoListaCircular->direitaPtr = vetorAuxiliar[ i ];
-			primeiroListaCircular->esquerdaPtr = vetorAuxiliar[ i ];
-
-			ultimoListaCircular = vetorAuxiliar[ i ];
 			if ( minRoot == NULL || vetorAuxiliar[ i ]->getDistancia() < minRoot->getDistancia() )
 				minRoot = vetorAuxiliar[ i ];
-
-
 		}
 	}
+
+	free( vetorAuxiliar );
 
 }
 
@@ -251,4 +236,68 @@ return idVertice;
 
 void FibonacciNode::setIdVertice(int idVertice) {
 this->idVertice = idVertice;
+}
+
+
+void HeapFibonacci::imprimeHeapFibonacci()
+{
+	FibonacciNode *it = primeiroListaCircular;
+	do
+	{
+		cout << "Nodo: " << it->distancia << " Filhos: ";
+		for ( FibonacciNode *itFilhos = it->filhoPtr; itFilhos != NULL; itFilhos = itFilhos->direitaPtr )
+		{
+			if ( itFilhos == NULL )
+				cout << "Null" << endl;
+			cout << itFilhos->distancia << " -> ";
+		}
+
+		cout << endl;
+
+		it = it->direitaPtr;
+
+
+
+	} while ( it != primeiroListaCircular );
+}
+
+void HeapFibonacci::insereVerticineListaPricipal( FibonacciNode *novoNodo )
+{
+	if ( ultimoListaCircular == NULL )
+	{
+		ultimoListaCircular = novoNodo;
+		primeiroListaCircular = novoNodo;
+		novoNodo->direitaPtr = novoNodo;
+		novoNodo->esquerdaPtr = novoNodo;
+	}
+	else
+	{
+		novoNodo->direitaPtr = primeiroListaCircular;
+		novoNodo->esquerdaPtr = ultimoListaCircular;
+
+		ultimoListaCircular->direitaPtr = novoNodo;
+		primeiroListaCircular->esquerdaPtr = novoNodo;
+		ultimoListaCircular = novoNodo;
+	}
+}
+
+
+void HeapFibonacci::remoreVerticeNaListaPrincipal( FibonacciNode *nodo )
+{
+	if ( primeiroListaCircular == nodo && ultimoListaCircular == nodo )
+	{
+		primeiroListaCircular = NULL;
+		ultimoListaCircular = NULL;
+	}
+	else
+	{
+		nodo->esquerdaPtr->direitaPtr = nodo->direitaPtr;
+		nodo->direitaPtr->esquerdaPtr = nodo->esquerdaPtr;
+
+		if ( nodo == ultimoListaCircular )
+			ultimoListaCircular = nodo->esquerdaPtr;
+		if ( nodo == primeiroListaCircular )
+			primeiroListaCircular = nodo->direitaPtr;
+	}
+
 }

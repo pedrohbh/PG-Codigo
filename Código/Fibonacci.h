@@ -58,9 +58,12 @@ public:
 	HeapFibonacci();
 
 	void insertVertex( FibonacciNode *nodo );
+	void insereVerticineListaPricipal( FibonacciNode *novoNodo );
+	void remoreVerticeNaListaPrincipal( FibonacciNode *nodo );
 	FibonacciNode *extractMin();
 	void consolidate();
 	void heapLink( FibonacciNode *y, FibonacciNode *x );
+	void imprimeHeapFibonacci();
 
 //private:
 	int numeroNodos;
