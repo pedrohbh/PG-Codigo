@@ -22,6 +22,29 @@ FibonacciNode::FibonacciNode( int vertice, int dist )
 	distancia = dist;
 }
 
+FibonacciNode *FibonacciNode::removeFilho(FibonacciNode* nodo)
+{
+    FibonacciNode *it = this->filhoPtr;
+    if ( it == nodo )
+    {
+        this->filhoPtr = it->direitaPtr;
+    }
+    else
+    {
+        FibonacciNode *temp = it;
+        while( temp->direitaPtr != nodo )
+            temp = temp->direitaPtr;
+        
+        it = temp->direitaPtr;
+        temp->direitaPtr = temp->direitaPtr->direitaPtr;
+        
+    }
+    
+    this->rank--;
+    return it;
+    
+}
+
 
 void FibonacciNode::adicionaFilho( FibonacciNode *nodo )
 {
@@ -300,4 +323,47 @@ void HeapFibonacci::remoreVerticeNaListaPrincipal( FibonacciNode *nodo )
 			primeiroListaCircular = nodo->direitaPtr;
 	}
 
+}
+
+void HeapFibonacci::cut(FibonacciNode* x, FibonacciNode* y)
+{
+    y->removeFilho( x );
+    insereVerticineListaPricipal( x );
+    x->paiPtr = NULL;
+    x->mark = false;
+}
+
+void HeapFibonacci::cascadingCut(FibonacciNode* y)
+{
+    FibonacciNode *z = y->paiPtr;
+    if ( z != NULL )
+    {
+        if ( y->mark == false )
+            y->mark = true;
+        else
+        {
+            cut( y, z );
+            cascadingCut( z );
+        }
+    }
+}
+
+void HeapFibonacci::decreaseKey(FibonacciNode* nodo, int valor)
+{
+    if ( valor > nodo->distancia )
+    {
+        cerr << "A nova chave do nodo " << nodo->idVertice << " é maior que a chave atual " << nodo->distancia << endl;
+        exit( 1 );
+    }
+    
+    nodo->distancia = valor;
+    FibonacciNode *y = nodo->paiPtr;
+    if ( y != NULL && nodo->distancia < y->distancia )
+    {
+        cut( nodo, y );
+        cascadingCut( y );
+    }
+    if ( nodo->distancia < minRoot->distancia )
+        minRoot = nodo;
+    
 }

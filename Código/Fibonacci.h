@@ -15,6 +15,7 @@ public:
 
 
 	void adicionaFilho( FibonacciNode *novoNodo );
+        FibonacciNode *removeFilho( FibonacciNode *nodo );
 
 
 
@@ -61,6 +62,9 @@ public:
 	void insereVerticineListaPricipal( FibonacciNode *novoNodo );
 	void remoreVerticeNaListaPrincipal( FibonacciNode *nodo );
 	FibonacciNode *extractMin();
+	void decreaseKey( FibonacciNode *nodo, int valor );
+	void cut( FibonacciNode *x, FibonacciNode *y );
+	void cascadingCut( FibonacciNode *y );
 	void consolidate();
 	void heapLink( FibonacciNode *y, FibonacciNode *x );
 	void imprimeHeapFibonacci();
