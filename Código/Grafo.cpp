@@ -185,12 +185,94 @@ void impimeRotaMaisCurta( unsigned int const *origemPtr, unsigned int const *det
 		cout << cout << predecessor[ (*anterior) ] << " - ";
 }
 
-/*void Grafo::dijkstraHeapFibonacci( unsigned int origem, unsigned int destino )
+void Grafo::dijkstraHeapFibonacci( unsigned int origem, unsigned int destino )
 {
-	HeapFibonacci *heap = new FibonacciHeap();
+	HeapFibonacci heap;
+	if ( origem >= numeroVertices || destino >= numeroVertices )
+	{
+		cerr << "Erro: O vértice origem ou destino não existe no grafo (nVertice > numeroVertices)" << endl;
+		return;
+	}
+	unsigned int tamanhoVetor = numeroVertices;
+	bool *aSerChecado = (bool *)malloc(sizeof(bool) * numeroVertices );
+	int *predecessor = (int *)malloc(sizeof(int) * numeroVertices );
+	FibonacciNode **mapa = (FibonacciNode **)malloc( sizeof( FibonacciNode * ) * numeroVertices );
+	if ( aSerChecado == NULL )
+	{
+		cerr << "Erro ao alocar memória para a varíavel \"aSerChecado\". Encerrando o programa." << endl;
+		exit( 0 );
+	}
+	if ( predecessor == NULL )
+	{
+		cerr << "Erro ao alocar memória para a varíavel \"predecessor\". Encerrando o programa." << endl;
+		exit( 0 );
+	}
+	if ( mapa == NULL )
+	{
+		cerr << "Erro ao alocar memória para a varíavel \"mapa\". Encerrando o programa." << endl;
+		exit( 0 );
+	}
 
-	heap->insereVertice( 
-}*/
+	for ( int i = 0; i < numeroVertices; i++ )
+	{
+		aSerChecado[ i ] = true;
+		predecessor[ i ] = 0;		
+		FibonacciNode *novoNodo = new FibonacciNode( i, INT_MAX );
+		if ( novoNodo == NULL )
+		{
+			cerr << "Erro ao alocar novoNodo no algorimto de Dijkstra utilizando Heap de Fibonacci." << endl;
+			exit( 1 );
+		} 
+		if ( i == origem )
+		{
+			novoNodo->distancia = 0;
+			aSerChecado[ i ] = false;
+			predecessor[ origem ] = i;
+		}
+		mapa[ i ] = novoNodo;
+		heap.insertVertex( novoNodo );		
+	}
+
+	FibonacciNode *atual = heap.extractMin();
+
+	while( tamanhoVetor > 0 )
+	{
+		
+		for ( list<Aresta>::const_iterator it = verticesGrafos[ atual->idVertice ].verticesAdjacentes.begin(); it != verticesGrafos[ atual->idVertice ].verticesAdjacentes.end(); ++it )
+		{
+			if ( !aSerChecado[ it->idVertice2 ] )
+				continue;
+			
+			if ( mapa[ it->idVertice2 ]->distancia > atual->distancia + it->pesoAresta )
+			{
+					heap.decreaseKey( mapa[ it->idVertice2 ], atual->distancia + it->pesoAresta );//distancias[ posicaoVerticeAdjacente ] = distancias[ verticeAtual ] + it->pesoAresta;
+					predecessor[ it->idVertice2 ] = atual->idVertice;
+			}
+		}
+
+		atual = heap.extractMin();
+		if ( atual == NULL )
+			break;
+		aSerChecado[ atual->idVertice ] = false;
+		tamanhoVetor--;
+			
+	}
+
+	for ( int i = 0; i < numeroVertices; i++ )
+		cout << predecessor[ i ] << " ";
+	cout << endl;
+	
+	free( aSerChecado );
+	free( predecessor );
+	free( mapa );
+
+
+}
+	
+	
+
+
+
 // No caso do Dijkstra Canônico, a posição dos vetores predecessor, distancias, aSerChecado correspondem ao ID dos vértices
 void Grafo::dijkstraCanonico( unsigned int origem, unsigned int destino )
 {
